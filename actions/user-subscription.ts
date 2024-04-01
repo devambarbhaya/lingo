@@ -35,12 +35,12 @@ export const createStripeUrl = async () => {
       {
         quantity: 1,
         price_data: {
-          currency: "USD",
+          currency: "INR",
           product_data: {
             name: "Lingo Pro",
             description: "Unlimited Hearts",
           },
-          unit_amount: 2000, // $20.00 USD
+          unit_amount: 20000, // $20.00 USD
           recurring: {
             interval: "month",
           },
