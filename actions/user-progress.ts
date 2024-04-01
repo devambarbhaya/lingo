@@ -7,7 +7,11 @@ import { auth, currentUser } from "@clerk/nextjs";
 
 import db from "@/db/drizzle";
 import { POINTS_TO_REFILL } from "@/constants";
-import { getCourseById, getUserProgress, getUserSubscription } from "@/db/queries";
+import {
+  getCourseById,
+  getUserProgress,
+  getUserSubscription,
+} from "@/db/queries";
 import { challengeProgress, challenges, userProgress } from "@/db/schema";
 
 export const upsertUserProgress = async (courseId: number) => {
@@ -77,14 +81,14 @@ export const reduceHearts = async (challengeId: number) => {
   const existingChallengeProgress = await db.query.challengeProgress.findFirst({
     where: and(
       eq(challengeProgress.userId, userId),
-      eq(challengeProgress.challengeId, challengeId),
+      eq(challengeProgress.challengeId, challengeId)
     ),
   });
 
   const isPractice = !!existingChallengeProgress;
 
   if (isPractice) {
-    return { error: "practice" }; 
+    return { error: "practice" };
   }
 
   if (!currentUserProgress) {
@@ -99,9 +103,12 @@ export const reduceHearts = async (challengeId: number) => {
     return { error: "hearts" };
   }
 
-  await db.update(userProgress).set({
-    hearts: Math.max(currentUserProgress.hearts - 1, 0),
-  }).where(eq(userProgress.userId, userId));
+  await db
+    .update(userProgress)
+    .set({
+      hearts: Math.max(currentUserProgress.hearts - 1, 0),
+    })
+    .where(eq(userProgress.userId, userId));
 
   revalidatePath("/shop");
   revalidatePath("/learn");
@@ -125,10 +132,13 @@ export const refillHearts = async () => {
     throw new Error("Not enough points");
   }
 
-  await db.update(userProgress).set({
-    hearts: 5,
-    points: currentUserProgress.points - POINTS_TO_REFILL,
-  }).where(eq(userProgress.userId, currentUserProgress.userId));
+  await db
+    .update(userProgress)
+    .set({
+      hearts: 5,
+      points: currentUserProgress.points - POINTS_TO_REFILL,
+    })
+    .where(eq(userProgress.userId, currentUserProgress.userId));
 
   revalidatePath("/shop");
   revalidatePath("/learn");

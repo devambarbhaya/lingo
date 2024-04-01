@@ -7,7 +7,7 @@ import { isAdmin } from "@/lib/admin";
 
 export const GET = async (
   req: Request,
-  { params }: { params: { courseId: number } },
+  { params }: { params: { courseId: number } }
 ) => {
   if (!isAdmin()) {
     return new NextResponse("Unauthorized", { status: 403 });
@@ -22,30 +22,36 @@ export const GET = async (
 
 export const PUT = async (
   req: Request,
-  { params }: { params: { courseId: number } },
+  { params }: { params: { courseId: number } }
 ) => {
   if (!isAdmin()) {
     return new NextResponse("Unauthorized", { status: 403 });
   }
 
   const body = await req.json();
-  const data = await db.update(courses).set({
-    ...body,
-  }).where(eq(courses.id, params.courseId)).returning();
+  const data = await db
+    .update(courses)
+    .set({
+      ...body,
+    })
+    .where(eq(courses.id, params.courseId))
+    .returning();
 
   return NextResponse.json(data[0]);
 };
 
 export const DELETE = async (
   req: Request,
-  { params }: { params: { courseId: number } },
+  { params }: { params: { courseId: number } }
 ) => {
   if (!isAdmin()) {
     return new NextResponse("Unauthorized", { status: 403 });
   }
 
-  const data = await db.delete(courses)
-    .where(eq(courses.id, params.courseId)).returning();
+  const data = await db
+    .delete(courses)
+    .where(eq(courses.id, params.courseId))
+    .returning();
 
   return NextResponse.json(data[0]);
 };

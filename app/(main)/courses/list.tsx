@@ -10,7 +10,7 @@ import { upsertUserProgress } from "@/actions/user-progress";
 import { Card } from "./card";
 
 type Props = {
-  courses: typeof courses.$inferSelect[];
+  courses: (typeof courses.$inferSelect)[];
   activeCourseId?: typeof userProgress.$inferSelect.activeCourseId;
 };
 
@@ -26,8 +26,7 @@ export const List = ({ courses, activeCourseId }: Props) => {
     }
 
     startTransition(() => {
-      upsertUserProgress(id)  
-        .catch(() => toast.error("Something went wrong."));
+      upsertUserProgress(id).catch(() => toast.error("Something went wrong."));
     });
   };
 

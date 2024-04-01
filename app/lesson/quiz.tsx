@@ -19,17 +19,19 @@ import { Challenge } from "./challenge";
 import { ResultCard } from "./result-card";
 import { QuestionBubble } from "./question-bubble";
 
-type Props ={
+type Props = {
   initialPercentage: number;
   initialHearts: number;
   initialLessonId: number;
   initialLessonChallenges: (typeof challenges.$inferSelect & {
     completed: boolean;
-    challengeOptions: typeof challengeOptions.$inferSelect[];
+    challengeOptions: (typeof challengeOptions.$inferSelect)[];
   })[];
-  userSubscription: typeof userSubscription.$inferSelect & {
-    isActive: boolean;
-  } | null;
+  userSubscription:
+    | (typeof userSubscription.$inferSelect & {
+        isActive: boolean;
+      })
+    | null;
 };
 
 export const Quiz = ({
@@ -53,16 +55,10 @@ export const Quiz = ({
   const router = useRouter();
 
   const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true });
-  const [
-    correctAudio,
-    _c,
-    correctControls,
-  ] = useAudio({ src: "/correct.wav" });
-  const [
-    incorrectAudio,
-    _i,
-    incorrectControls,
-  ] = useAudio({ src: "/incorrect.wav" });
+  const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.wav" });
+  const [incorrectAudio, _i, incorrectControls] = useAudio({
+    src: "/incorrect.wav",
+  });
   const [pending, startTransition] = useTransition();
 
   const [lessonId] = useState(initialLessonId);
@@ -72,7 +68,9 @@ export const Quiz = ({
   });
   const [challenges] = useState(initialLessonChallenges);
   const [activeIndex, setActiveIndex] = useState(() => {
-    const uncompletedIndex = challenges.findIndex((challenge) => !challenge.completed);
+    const uncompletedIndex = challenges.findIndex(
+      (challenge) => !challenge.completed
+    );
     return uncompletedIndex === -1 ? 0 : uncompletedIndex;
   });
 
@@ -132,7 +130,7 @@ export const Quiz = ({
               setHearts((prev) => Math.min(prev + 1, 5));
             }
           })
-          .catch(() => toast.error("Something went wrong. Please try again."))
+          .catch(() => toast.error("Something went wrong. Please try again."));
       });
     } else {
       startTransition(() => {
@@ -150,7 +148,7 @@ export const Quiz = ({
               setHearts((prev) => Math.max(prev - 1, 0));
             }
           })
-          .catch(() => toast.error("Something went wrong. Please try again."))
+          .catch(() => toast.error("Something went wrong. Please try again."));
       });
     }
   };
@@ -185,14 +183,8 @@ export const Quiz = ({
             Great job! <br /> You&apos;ve completed the lesson.
           </h1>
           <div className="flex items-center gap-x-4 w-full">
-            <ResultCard
-              variant="points"
-              value={challenges.length * 10}
-            />
-            <ResultCard
-              variant="hearts"
-              value={hearts}
-            />
+            <ResultCard variant="points" value={challenges.length * 10} />
+            <ResultCard variant="hearts" value={hearts} />
           </div>
         </div>
         <Footer
@@ -204,9 +196,10 @@ export const Quiz = ({
     );
   }
 
-  const title = challenge.type === "ASSIST" 
-    ? "Select the correct meaning"
-    : challenge.question;
+  const title =
+    challenge.type === "ASSIST"
+      ? "Select the correct meaning"
+      : challenge.question;
 
   return (
     <>

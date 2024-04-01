@@ -21,9 +21,12 @@ export const POST = async (req: Request) => {
 
   const body = await req.json();
 
-  const data = await db.insert(courses).values({
-    ...body,
-  }).returning();
+  const data = await db
+    .insert(courses)
+    .values({
+      ...body,
+    })
+    .returning();
 
   return NextResponse.json(data[0]);
 };

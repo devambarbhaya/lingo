@@ -2,7 +2,7 @@ import { Datagrid, List, TextField, ReferenceField } from "react-admin";
 
 export const UnitList = () => {
   return (
-  <List>
+    <List>
       <Datagrid rowClick="edit">
         <TextField source="id" />
         <TextField source="title" />

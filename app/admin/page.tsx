@@ -10,9 +10,7 @@ const AdminPage = () => {
     redirect("/");
   }
 
-  return ( 
-    <App />
-  );
+  return <App />;
 };
- 
+
 export default AdminPage;

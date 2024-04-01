@@ -17,9 +17,9 @@ export async function POST(req: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!,
+      process.env.STRIPE_WEBHOOK_SECRET!
     );
-  } catch(error: any) {
+  } catch (error: any) {
     return new NextResponse(`Webhook error: ${error.message}`, {
       status: 400,
     });
@@ -41,9 +41,7 @@ export async function POST(req: Request) {
       stripeSubscriptionId: subscription.id,
       stripeCustomerId: subscription.customer as string,
       stripePriceId: subscription.items.data[0].price.id,
-      stripeCurrentPeriodEnd: new Date(
-        subscription.current_period_end * 1000,
-      ),
+      stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
     });
   }
 
@@ -52,13 +50,16 @@ export async function POST(req: Request) {
       session.subscription as string
     );
 
-    await db.update(userSubscription).set({
-      stripePriceId: subscription.items.data[0].price.id,
-      stripeCurrentPeriodEnd: new Date(
-        subscription.current_period_end * 1000,
-      ),
-    }).where(eq(userSubscription.stripeSubscriptionId, subscription.id))
+    await db
+      .update(userSubscription)
+      .set({
+        stripePriceId: subscription.items.data[0].price.id,
+        stripeCurrentPeriodEnd: new Date(
+          subscription.current_period_end * 1000
+        ),
+      })
+      .where(eq(userSubscription.stripeSubscriptionId, subscription.id));
   }
 
   return new NextResponse(null, { status: 200 });
-};
+}

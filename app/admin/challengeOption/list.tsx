@@ -1,4 +1,11 @@
-import { Datagrid, List, TextField, ReferenceField, NumberField, BooleanField } from "react-admin";
+import {
+  Datagrid,
+  List,
+  TextField,
+  ReferenceField,
+  NumberField,
+  BooleanField,
+} from "react-admin";
 
 export const ChallengeOptionList = () => {
   return (
@@ -14,4 +21,3 @@ export const ChallengeOptionList = () => {
     </List>
   );
 };
-
