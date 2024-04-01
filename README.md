@@ -2,9 +2,7 @@
 
 ![Duolingo thumb (1)](https://github.com/AntonioErdeljac/next14-duolingo-clone/assets/23248726/d58e4b55-bb09-456f-978e-f5f31e81b870)
 
-This is a repository for a "Build a Duolingo Clone With Nextjs, React, Drizzle, Stripe (2024)" youtube video.
-
-[VIDEO TUTORIAL](https://www.youtube.com/watch?v=dP75Khfy4s4)
+This is a repository for a "Build a Duolingo Clone With Nextjs, React, Drizzle, Stripe (2024)"
 
 Key Features:
 - 🌐 Next.js 14 & server actions
@@ -36,7 +34,7 @@ Key Features:
 ### Cloning the repository
 
 ```shell
-git clone https://github.com/AntonioErdeljac/next14-duolingo-clone.git
+git clone https://github.com/devambarbhaya/lingo.git
 ```
 
 ### Install packages
@@ -83,4 +81,3 @@ npm run db:prod
 ```shell
 npm run dev
 ```
-# lingo
